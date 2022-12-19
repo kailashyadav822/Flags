@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flags</title>
+    <style>
+        .boxs {
+            display: flex;
+            justify-content: center;
+            margin-top: 10%;
+        }
+
+        .flags {
+            height: 300px;
+            width: 300px;
+            border: 2px solid darkorange;
+            border-radius: 30px;
+            margin-left: 30px;
+
+
+        }
+
+        .flags h1 {
+            display: flex;
+            justify-content: center;
+            /* margin-top: 250px; */
+        }
+
+        .entername {
+            height: 300px;
+            width: 300px;
+            border: 2px solid darkorange;
+            border-radius: 30px;
+        }
+
+        .entername h1 {
+            display: flex;
+            justify-content: center;
+           
+        }
+
+        .entername button {
+            margin: 20px 0 0 60px;
+            padding: 10px 50px 10px 50px;
+            border: 2px solid darkorange;
+            border-radius: 20px;
+
+        }
+
+        .entername input {
+            margin-left: 30px;
+            padding: 5px 25px 10px 40px;
+            border: 2px solid darkorange;
+            border-radius: 20px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrpper">
+        <div class="boxs">
+            <div class="entername">
+                <h1>Get Flags</h1>
+                <form>
+                    <input type="text" placeholder="write a countrys name "><br>
+                    <button> Get Flags</button>
+                </form>
+            </div>
+            <div class="flags">
+                <h1>Flags</h1>
+            </div>
+        </div>
+    </div>
+    <script>
+        const from=document.querySelector("form")
+        
+        let btn = document.querySelector("button")
+
+        from.onsubmit = (e) => {
+            // console.log(inp.value)
+            // let countrys = input.value
+            e.preventDefault();
+            deleteflage()
+            let inp = document.querySelector("input").value
+            fetch("https://flagcdn.com/en/codes.json")
+                .then((response) => { return response.json() })
+                .then((result) => { console.log(result);  OPENFLAG(result, inp) })
+        }
+        function OPENFLAG(result, inp) {
+            inp = inp.toLowerCase()
+            const firstLetter = inp[0].toUpperCase()
+            const inpsplit = inp.split('')
+            inpsplit.splice(0, 1, firstLetter)
+            let flagtofind = inpsplit.join('')
+
+            for (let code in result) {
+                if (result[code] === flagtofind) {
+                    const image = document.createElement("img")
+                    image.src = 'https://flagcdn.com/256x192/'+code+'.png'
+                    document.querySelector(".flags").appendChild(image)
+                }
+            }
+        }
+         function deleteflage(){
+            let flag= Array.from(document.querySelector(".flags").children)
+            if(flag.length >0){
+                flag.forEach((falus)=>{falus.remove()})
+            }
+        }
+
+      
+
+
+
+    </script>
+
+</body>
+
+</html>
